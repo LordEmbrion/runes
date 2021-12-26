@@ -1,0 +1,73 @@
+#include <iostream>
+using namespace std;
+
+void PrintIntro() {
+    //Output intro to player
+    cout << "\nYou enter a room with ancient runes.\nAncient runes in front of you depict that a code needs to be entered.\nThe correct input will allow you to proceed to the next room.\nYou see an old looking temple while exploring a jungle.\nUpon entering for inspection, a stone door closes behind you.\nThere is an old looking keypad to enter four numbers" << endl;
+}
+
+bool PlayGame(int Difficulty) {
+    //Initialize constants
+    const int CodeA = (rand() % (Difficulty + 1)) + 1;
+    const int CodeB = (rand() % (Difficulty + 1)) + 1;
+    const int CodeC = (rand() % (Difficulty + 1)) + 1;
+    const int CodeD = (rand() % (Difficulty + 1)) + 1;
+
+    const int CodeSum = CodeA + CodeB + CodeC + CodeD;
+    const int CodeProduct = CodeA * CodeB * CodeC * CodeD;
+
+    //Print constants
+    cout << "\nThe leftmost rune displays the number " << CodeSum << ".\nThe text above this rune suggests this is the total sum." << endl;
+    cout << "\nThe rightmost run displays the number " << CodeProduct << ".\nThe text above this rune suggest this is the product." << endl;
+
+    //Store guess
+    int GuessA, GuessB, GuessC, GuessD;
+
+    cout << "\nEnter your selection for the keypad: " << endl;
+    cin >> GuessA >> GuessB >> GuessC >> GuessD;
+    cout << "\nYou entered " << GuessA << ", " << GuessB << ", " << GuessC << ", and " << GuessD << "." << endl;
+
+    int GuessSum = GuessA + GuessB + GuessC + GuessD;
+    int GuessProduct = GuessA * GuessB * GuessC * GuessD;
+
+    //Were you correct
+    if (GuessSum == CodeSum && GuessProduct == CodeProduct){
+        cout << "\nYou entered the numbers correctly on the keypad, the door forward opens." << endl;
+        return true;
+    }
+    else {
+        cout << "\nThe floor caves in and you arrive in a new room with new runes." << endl;
+        return false;
+    }
+}
+
+int main() {
+    int Difficulty = 1;
+    const int MaxDifficulty = 5;
+    int Errors = 2;
+    PrintIntro();
+
+    //Loop to play the game
+    while (Difficulty <= MaxDifficulty && Errors != 0) {
+        bool bResult = PlayGame(Difficulty);
+        cin.clear();
+        cin.ignore();
+
+        if (bResult){
+            Difficulty++;
+            Errors = 2;
+        }
+        else {
+            Errors--;
+        }
+    }
+
+    if (Errors == 0){
+        cout << "\nThe runes on the wall glow and lava starts pouring in from the walls.\nYou lose!" << endl;
+    }
+    else {
+        cout << "\nYou enter the room and loot lines the walls, and you spot the exit.\nYou win!" << endl;
+    }
+
+    return 0;
+}
